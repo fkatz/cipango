@@ -9,12 +9,14 @@ const Modal = ({
   children,
   visible,
   setVisible,
+  icons,
   ...restProps
 }: {
-  title: string;
+  title: React.ReactNode;
   children?: React.ReactNode;
   visible: boolean;
   setVisible: (visible: boolean) => void;
+  icons?: React.ReactNode;
 }) => {
   return ReactDOM.createPortal(
     <div
@@ -73,6 +75,7 @@ const Modal = ({
               },
             })}
           >
+            {icons}
             <CrossIcon
               sx={{
                 path: {

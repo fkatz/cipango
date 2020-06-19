@@ -91,7 +91,7 @@ const VocabularyBar = () => {
         sx={{
           mt: showFilters.show ? 0 : -height,
           display: showFilters.init ? "block" : "none",
-          ...(showFilters.show
+          /*...(showFilters.show
             ? {
                 transition: "1s",
               }
@@ -99,7 +99,7 @@ const VocabularyBar = () => {
           "@keyframes closeFilters": {
             from: { mt: 0 },
             to: { mt: -height },
-          },
+          },*/
         }}
       >
         <Filters

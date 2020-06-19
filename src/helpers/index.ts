@@ -5,7 +5,7 @@ export const getFilteredWords = (words: Word[], filters: Filter) => {
   return words
     .filter((word) =>
       filters.types && filters.types.length > 0
-        ? filters.types?.includes(word.type)
+        ? filters.types?.some((type) => word.type.includes(type))
         : true
     )
     .filter((word) =>

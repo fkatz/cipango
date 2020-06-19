@@ -12,7 +12,7 @@ const Select = ({
 }: {
   word: Word;
   field: FormField;
-  updateWord: (key: string, vaule: string) => void;
+  updateWord: (key: keyof Word, vaule: string) => void;
 }) => (
   <React.Fragment>
     <label>{field.label}</label>

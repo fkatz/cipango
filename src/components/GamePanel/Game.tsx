@@ -58,12 +58,21 @@ const Game = () => {
       let answerMap: { [key: string]: true } = {};
       getRandomAnswers([word])
         .map((answer) => answer[key]!)
-        .forEach((answer) => (answerMap[answer] = true));
+        .forEach(
+          (answer) =>
+            (answerMap[
+              typeof answer === "string" ? answer : answer.join(";")
+            ] = true)
+        );
       answers = Object.keys(answerMap);
     }
+    const correctAnswer = word[key];
     return {
       question: word.word,
-      correctAnswer: word[key]!,
+      correctAnswer:
+        typeof correctAnswer === "string"
+          ? correctAnswer
+          : correctAnswer.join(";")!,
       ...(gameMode.multipleChoice && { answers }),
     };
   };
