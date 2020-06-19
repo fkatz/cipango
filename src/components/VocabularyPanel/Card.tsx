@@ -51,22 +51,19 @@ const Card = ({
                 p: 0,
                 m: 0,
                 fontWeight: 400,
-                writingMode: "vertical-rl",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                flexGrow: 1,
               }}
             >
               {word.word}
             </h1>
-            {word.hiragana && (
+            {word.hiragana && word.hiragana !== word.word && (
               <div
                 sx={{
                   fontSize: "18px",
                   fontFamily: "arial, sans-serif",
                   textAlign: "center",
-                  my: "10px",
                 }}
               >
                 {word.hiragana}

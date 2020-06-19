@@ -15,19 +15,19 @@ const Toolbar = ({ children }: { children?: React.ReactNode }) => {
           px: "10px",
           py: "20px",
           display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
+          gridTemplateColumns: ["1fr 1fr", "1fr 1fr 1fr"],
           justifyContent: "space-between",
           alignItems: "center",
           background: "white",
           minHeight: "72px",
         }}
       >
-        <div></div>
+        <div sx={{ display: ["none", "block"] }}></div>
         <div
           sx={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: ["flex-start", "center"],
             alignItems: "center",
             height: "25px",
           }}
@@ -40,6 +40,7 @@ const Toolbar = ({ children }: { children?: React.ReactNode }) => {
             flexDirection: "row",
             justifyContent: "flex-end",
             alignItems: "center",
+            mr: ["0px", "10px"],
           }}
         >
           {children}

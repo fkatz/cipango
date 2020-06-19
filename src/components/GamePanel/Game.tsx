@@ -61,7 +61,7 @@ const Game = () => {
         .forEach(
           (answer) =>
             (answerMap[
-              typeof answer === "string" ? answer : answer.join(";")
+              typeof answer === "string" ? answer : answer.join("; ")
             ] = true)
         );
       answers = Object.keys(answerMap);
@@ -72,7 +72,7 @@ const Game = () => {
       correctAnswer:
         typeof correctAnswer === "string"
           ? correctAnswer
-          : correctAnswer.join(";")!,
+          : correctAnswer.join("; ")!,
       ...(gameMode.multipleChoice && { answers }),
     };
   };
@@ -84,9 +84,9 @@ const Game = () => {
 
   const nextTurn = (answer: string) => {
     const getIsCorrect = () => {
-      if (!gameMode.multipleChoice && question.correctAnswer.includes(",")) {
-        const correctAnswers = question.correctAnswer.split(/[ ]*,[ ]*/);
-        const answers = answer.split(/[ ]*,[ ]*/);
+      if (!gameMode.multipleChoice && question.correctAnswer.includes(";")) {
+        const correctAnswers = question.correctAnswer.split(/[ ]*;[ ]*/);
+        const answers = answer.split(/[ ]*;[ ]*/);
         return correctAnswers.some((correctAnswer) =>
           answers.includes(correctAnswer)
         );

@@ -3,6 +3,7 @@ import { jsx } from "theme-ui";
 import Toolbar from "../Toolbar";
 import { ReactComponent as CrossIcon } from "../../images/cross.svg";
 import GameState from "../../models/game-state";
+import Icon from "../Icon";
 
 const GameBar = ({
   gameState,
@@ -13,20 +14,7 @@ const GameBar = ({
 }) => {
   return (
     <Toolbar>
-      {gameState.start && (
-        <div
-          sx={{
-            height: "25px",
-            mr: 2,
-            transition: "0.2s",
-            opacity: 0.6,
-            ":hover": { opacity: 1 },
-          }}
-          onClick={endGame}
-        >
-          <CrossIcon sx={{ height: "25px", width: "25px" }} />
-        </div>
-      )}
+      {gameState.start && <Icon iconComponent={CrossIcon} onClick={endGame} />}
     </Toolbar>
   );
 };

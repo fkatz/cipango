@@ -19,4 +19,5 @@ export default interface Word {
   meaning: string[];
   type: WordType[];
   tags?: string[];
+  notes?: string;
 }

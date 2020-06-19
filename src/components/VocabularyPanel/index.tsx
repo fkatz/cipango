@@ -4,13 +4,15 @@ import React from "react";
 import EditModal from "./EditModal";
 import VocabularyBar from "./VocabularyBar";
 import CardList from "./CardList";
-import CarDetailModal from "./CardDetailModal";
+import CardDetailModal from "./CardDetailModal";
+import DeleteModal from "./DeleteModal";
 
 const VocabularyPanel = () => {
   return (
     <React.Fragment>
+      <CardDetailModal />
       <EditModal />
-      <CarDetailModal />
+      <DeleteModal />
       <VocabularyBar />
       <CardList />
     </React.Fragment>

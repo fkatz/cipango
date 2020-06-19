@@ -12,8 +12,8 @@ export interface FormField {
 const commonFields: FormField[] = [
   { label: "Word", key: "word", type: "input", lookup: true },
   { label: "Hiragana", key: "hiragana", type: "input" },
-  { label: "Meaning", key: "meaning", type: "multiInput" },
   { label: "Romaji", key: "romaji", type: "input" },
+  { label: "Meaning", key: "meaning", type: "multiInput" },
   {
     label: "Type",
     key: "type",
@@ -26,6 +26,7 @@ const commonFields: FormField[] = [
     type: "multiInput",
     optional: true,
   },
+  { label: "Notes", key: "notes", type: "textarea", optional: true },
 ];
 
 export { commonFields };

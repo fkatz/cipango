@@ -6,10 +6,12 @@ const VocabularyContext = React.createContext(
   {} as {
     editModalOpen: boolean;
     setEditModalOpen: (open: boolean) => void;
+    deleteModalOpen: boolean;
+    setDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     detailModalOpen: boolean;
-    setDetailModalOpen: (open: boolean) => void;
+    setDetailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     selectedWord: null | Word;
-    setSelectedWord: (word: null | Word) => void;
+    setSelectedWord: React.Dispatch<React.SetStateAction<null | Word>>;
     fieldVisibility: { [key: string]: boolean };
     setFieldVisibility: React.Dispatch<
       React.SetStateAction<{
@@ -28,6 +30,7 @@ const VocabularyContextProvider = ({
 }) => {
   const [selectedWord, setSelectedWord] = React.useState(null as null | Word);
   const [editModalOpen, setEditModalOpen] = React.useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const [detailModalOpen, setDetailModalOpen] = React.useState(false);
   const [fieldVisibility, setFieldVisibility] = React.useState(
     {} as { [key: string]: boolean }
@@ -40,6 +43,8 @@ const VocabularyContextProvider = ({
         setSelectedWord,
         editModalOpen,
         setEditModalOpen,
+        deleteModalOpen,
+        setDeleteModalOpen,
         detailModalOpen,
         setDetailModalOpen,
         fieldVisibility,

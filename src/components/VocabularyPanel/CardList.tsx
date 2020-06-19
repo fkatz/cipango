@@ -21,7 +21,7 @@ const CardList = () => {
     filters,
   ]);
 
-  const defaultSize = { width: "215px", height: "260px" };
+  const defaultSize = { width: "250px", height: "160px" };
   return (
     <div
       sx={{

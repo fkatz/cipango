@@ -9,6 +9,7 @@ import Select from "./Select";
 import MultiInput from "./MultiInput";
 import jishoLookUp from "../../../services/jishoLookUp";
 import MultiSelect from "./MultiSelect";
+import Textarea from "./Textarea";
 
 const Form = ({
   word,
@@ -65,6 +66,8 @@ const Form = ({
     switch (type) {
       case "input":
         return <Input {...props} />;
+      case "textarea":
+        return <Textarea {...props} />;
       case "select":
         return <Select {...props} />;
       case "multiInput":
@@ -77,7 +80,7 @@ const Form = ({
   };
 
   return (
-    <div sx={{ mb: 10, borderTop: "1px solid #ccc", pt: "20px" }}>
+    <div sx={{ mb: 10, pt: "20px" }}>
       <div
         sx={{
           display: "grid",
