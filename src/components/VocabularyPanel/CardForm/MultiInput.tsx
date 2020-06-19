@@ -5,14 +5,14 @@ import React from "react";
 import Word from "../../../models/word";
 import { FormField } from "./form-fields";
 
-const Multiselector = ({
+const MultiInput = ({
   word,
   field,
   updateWord,
 }: {
   word: Word;
   field: FormField;
-  updateWord: (key: string, vaule: string[]) => void;
+  updateWord: (key: keyof Word, vaule: string[]) => void;
 }) => {
   const [currentString, setCurrentString] = React.useState("");
   const elements = ((word as any)[field.key] as string[]) || [];
@@ -54,6 +54,7 @@ const Multiselector = ({
                   color: "white",
                   py: "10px",
                   pl: "10px",
+                  fontSize: "12px",
                   userSelect: "none",
                 }}
               >
@@ -89,4 +90,4 @@ const Multiselector = ({
     </React.Fragment>
   );
 };
-export default Multiselector;
+export default MultiInput;

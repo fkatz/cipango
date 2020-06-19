@@ -9,24 +9,25 @@ import { useStore } from "react-redux";
 import Actions from "../../../store/actions";
 
 const CardForm = ({ onSave }: { onSave?: () => void }) => {
-  const { editingWord } = React.useContext(VocabularyContext);
+  const { selectedWord, setSelectedWord } = React.useContext(VocabularyContext);
   const [wordState, setWordState] = React.useState({} as Word);
   const [error, setError] = React.useState("");
   const store = useStore();
   React.useEffect(() => {
-    setWordState(editingWord || ({} as Word));
-  }, [editingWord]);
+    setWordState(selectedWord || ({} as Word));
+  }, [selectedWord]);
 
   const save = () => {
     if (wordState.type) {
       const newWord = wordState;
       if (newWord) {
         try {
-          if (editingWord) {
+          if (selectedWord) {
             store.dispatch(Actions.updateWord(newWord));
           } else {
             store.dispatch(Actions.addWord(newWord));
           }
+          setSelectedWord(newWord);
           if (onSave) onSave();
           setWordState({} as Word);
           setError("");
@@ -37,7 +38,7 @@ const CardForm = ({ onSave }: { onSave?: () => void }) => {
     }
   };
 
-  const setWord = (key: string, value: any) =>
+  const setWord = (key: keyof Word, value: any) =>
     setWordState({ ...wordState, [key]: value });
 
   return (

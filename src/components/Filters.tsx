@@ -4,16 +4,15 @@ import React from "react";
 import { wordTypes } from "../models/word";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/actions";
+import Filter from "../models/filter";
 
 const Filters = ({
   filters,
   setFilters,
   ...restProps
 }: {
-  filters: { types?: string[]; tags?: string[] };
-  setFilters: React.Dispatch<
-    React.SetStateAction<{ types?: string[]; tags?: string[] }>
-  >;
+  filters: Filter;
+  setFilters: React.Dispatch<React.SetStateAction<Filter>>;
 }) => {
   const words = useSelector((state: RootState) => state.words);
 
@@ -26,7 +25,7 @@ const Filters = ({
       let elements = filters[key];
       if (!filters[key]) {
         elements = [element];
-      } else if (!filters[key]!.includes(element)) {
+      } else if (!(filters[key] as string[])!.includes(element)) {
         elements = [...filters[key]!, element];
       } else {
         elements = filters[key]!.filter(
@@ -44,7 +43,7 @@ const Filters = ({
       sx={{
         display: "grid",
         gridTemplateColumns: ["1fr", "max-content auto"],
-        gridTemplateRows: ["1fr", "1fr 1fr"],
+        gridTemplateRows: ["auto", "auto auto"],
         alignItems: "center",
         columnGap: "20px",
         rowGap: "10px",

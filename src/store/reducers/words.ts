@@ -8,15 +8,19 @@ import {
 } from "../types";
 
 export class WordRepeatedError extends Error {
-  constructor(word: string) {
-    super(`The word "${word}" already exists`);
+  constructor(word: string, hiragana?: string) {
+    super(
+      `The word "${word}${hiragana ? ` (${hiragana})` : ""}" already exists`
+    );
     this.name = "WordRepeatedError";
   }
 }
 
 export class WordDoesNotExistError extends Error {
-  constructor(word: string) {
-    super(`The word "${word}" does not exist`);
+  constructor(word: string, hiragana?: string) {
+    super(
+      `The word "${word}${hiragana ? ` (${hiragana})` : ""}" does not exist`
+    );
     this.name = "WordDoesNotExistError";
   }
 }
@@ -30,21 +34,44 @@ const initialWords = (localStorageWordsJSON
 
 const wordsReducerInternal = (words = initialWords, action: WordAction) => {
   if (action.type === ADD_WORD) {
-    if (words.some((word) => word.word === action.word.word))
-      throw new WordRepeatedError(action.word.word);
+    if (
+      words.some(
+        (word) =>
+          word.word === action.word.word &&
+          word.hiragana === action.word.hiragana
+      )
+    )
+      throw new WordRepeatedError(action.word.word, action.word.hiragana);
     return [...words, action.word];
   }
   if (action.type === UPDATE_WORD) {
-    if (!words.some((word) => word.word === action.word.word))
-      throw new WordDoesNotExistError(action.word.word);
+    if (
+      !words.some(
+        (word) =>
+          word.word === action.word.word &&
+          word.hiragana === action.word.hiragana
+      )
+    )
+      throw new WordDoesNotExistError(action.word.word, action.word.hiragana);
     return words.map((word) =>
-      word.word === action.word.word ? action.word : word
+      word.word === action.word.word && word.hiragana === action.word.hiragana
+        ? action.word
+        : word
     );
   }
   if (action.type === REMOVE_WORD) {
-    if (!words.some((word) => word.word === action.word.word))
-      throw new WordDoesNotExistError(action.word.word);
-    return words.filter((word) => word.word !== action.word.word);
+    if (
+      !words.some(
+        (word) =>
+          word.word === action.word.word &&
+          word.hiragana === action.word.hiragana
+      )
+    )
+      throw new WordDoesNotExistError(action.word.word, action.word.hiragana);
+    return words.filter(
+      (word) =>
+        word.word !== action.word.word || word.hiragana !== action.word.hiragana
+    );
   }
   if (action.type === IMPORT_WORDS) {
     return action.words;

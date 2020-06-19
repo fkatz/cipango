@@ -6,15 +6,15 @@ import Modal from "../Modal";
 import CardForm from "./CardForm";
 
 const EditModal = () => {
-  const { editModalOpen, setEditModalOpen, editingWord } = React.useContext(
+  const { editModalOpen, setEditModalOpen, selectedWord } = React.useContext(
     VocabularyContext
   );
   return (
     <Modal
       visible={editModalOpen}
       setVisible={setEditModalOpen}
-      title={editingWord ? "Edit word" : "Add word"}
-      sx={{ maxWidth: [null, 400] }}
+      title={selectedWord ? "Edit word" : "Add word"}
+      sx={{ maxWidth: [null, 500] }}
     >
       <CardForm
         onSave={() => {

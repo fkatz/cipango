@@ -5,7 +5,7 @@ import React from "react";
 import Word from "../../../models/word";
 import { FormField } from "./form-fields";
 
-const Input = ({
+const Textarea = ({
   word,
   field,
   updateWord,
@@ -21,8 +21,8 @@ const Input = ({
   return (
     <React.Fragment>
       <label>{field.label}</label>
-      <input
-        sx={{ minWidth: 0, width: "100%" }}
+      <textarea
+        sx={{ minWidth: 0, width: "100%", resize: "vertical" }}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onBlur={(e) => updateWord(field.key, e.target.value)}
@@ -30,4 +30,4 @@ const Input = ({
     </React.Fragment>
   );
 };
-export default Input;
+export default Textarea;

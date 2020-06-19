@@ -2,6 +2,7 @@
 import { jsx } from "theme-ui";
 import { ReactComponent as ExitIcon } from "../../images/exit.svg";
 import Word from "../../models/word";
+import Icon from "../Icon";
 
 const DownloadButton = ({ words }: { words: Word[] }) => {
   const downloadJSON = () => {
@@ -13,19 +14,11 @@ const DownloadButton = ({ words }: { words: Word[] }) => {
     a.click();
   };
   return (
-    <div onClick={downloadJSON}>
-      <ExitIcon
-        sx={{
-          height: "25px",
-          width: "25px",
-          mr: "9.5px",
-          transition: "0.2s",
-          opacity: 0.6,
-
-          ":hover": { opacity: 1 },
-        }}
-      />
-    </div>
+    <Icon
+      iconComponent={ExitIcon}
+      onClick={downloadJSON}
+      sx={{ mr: "9.5px" }}
+    />
   );
 };
 

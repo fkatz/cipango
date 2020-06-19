@@ -9,12 +9,14 @@ const Modal = ({
   children,
   visible,
   setVisible,
+  icons,
   ...restProps
 }: {
-  title: string;
+  title: React.ReactNode;
   children?: React.ReactNode;
   visible: boolean;
   setVisible: (visible: boolean) => void;
+  icons?: React.ReactNode;
 }) => {
   return ReactDOM.createPortal(
     <div
@@ -46,8 +48,9 @@ const Modal = ({
           boxShadow: "0px 0px 8px 0px rgba(0, 0, 0, 0.43)",
           transform: `scale(${visible ? 1 : 0.8})`,
           transition: visible ? "0.5s" : "0.3s ease-out",
-          overflowY: "auto",
           borderRadius: "2px",
+          display: "flex",
+          flexDirection: "column",
         }}
         {...restProps}
       >
@@ -55,41 +58,38 @@ const Modal = ({
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            p: "20px",
+            mx: "20px",
             py: "15px",
             mb: "0px",
+            borderBottom: "1px solid #ccc",
           }}
         >
           <h3 sx={{ my: 0 }}>{title || ""}</h3>
           <span
             sx={{
-              opacity: 0.6,
-              transition: "0.5s",
-              ":hover": { opacity: 1 },
+              span: { opacity: 0.6, transition: "0.5s" },
+              "span:hover": { opacity: 1 },
             }}
-            {...(visible && {
-              onClick: () => {
-                setVisible(false);
-              },
-            })}
           >
-            <CrossIcon
-              sx={{
-                path: {
-                  fill: "#000",
-                  stroke: "#000",
-                  strokeWidth: "1px",
+            {icons}
+            <span
+              {...(visible && {
+                onClick: () => {
+                  setVisible(false);
                 },
-              }}
-            />
+              })}
+            >
+              <CrossIcon sx={{ width: "25px", height: "25px" }} />
+            </span>
           </span>
         </div>
 
         <div
           sx={{
             width: "100%",
-            overflow: "auto",
+            overflowY: "auto",
             px: "20px",
+            flexGrow: 1,
           }}
         >
           {children}

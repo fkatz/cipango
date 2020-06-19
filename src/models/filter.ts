@@ -1,4 +1,6 @@
+import { WordType } from "./word";
+
 export default interface Filter {
-  types?: string[];
+  types?: WordType[];
   tags?: string[];
 }

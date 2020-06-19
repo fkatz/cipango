@@ -3,10 +3,13 @@ import { jsx } from "theme-ui";
 import React from "react";
 
 import Word from "../../../models/word";
-import { FormField, commonFields, typeFields } from "./form-fields";
+import { FormField, commonFields } from "./form-fields";
 import Input from "./Input";
 import Select from "./Select";
-import Multiselector from "./Multiselector";
+import MultiInput from "./MultiInput";
+import jishoLookUp from "../../../services/jishoLookUp";
+import MultiSelect from "./MultiSelect";
+import Textarea from "./Textarea";
 
 const Form = ({
   word,
@@ -14,7 +17,7 @@ const Form = ({
   save,
 }: {
   word: Word;
-  updateWord: (key: string, vaule: any) => void;
+  updateWord: (key: keyof Word, value: any) => void;
   save: () => void;
 }) => {
   const canSave = React.useMemo(() => {
@@ -22,65 +25,62 @@ const Form = ({
     if (word.type) {
       for (const field of commonFields)
         canSave =
-          canSave && (field.optional ? true : !!(word as any)[field.key]);
-      for (const field of typeFields[word.type])
-        canSave =
-          canSave && (field.optional ? true : !!(word as any)[field.key]);
+          canSave &&
+          (field.optional
+            ? true
+            : !!word[field.key] &&
+              (Array.isArray(word[field.key])
+                ? word[field.key]!.length > 0
+                : true));
     }
     return canSave;
   }, [word]);
 
+  const [doLookUp, setDoLookUp] = React.useState(false);
+
+  /*React.useEffect(() => {
+    const lookUp = async () => {
+      const result = await jishoLookUp(word.word);
+      setDoLookUp(false);
+      updateWord("meaning", result.meaning);
+      updateWord("hiragana", result.hiragana);
+    };
+    if (doLookUp) {
+      lookUp();
+    }
+  }, [doLookUp, updateWord, word.word]);*/
+
+  const lookup = (key: keyof Word, value: any) => {
+    setDoLookUp(true);
+    console.log("entro");
+    updateWord(key, value);
+  };
+
   const renderField = (type: string, field: FormField) => {
+    const props = {
+      key: field.key,
+      word: word,
+      field: field,
+      updateWord: field.lookup ? lookup : updateWord,
+    };
     switch (type) {
       case "input":
-        return (
-          <Input
-            key={field.key}
-            word={word}
-            field={field}
-            updateWord={updateWord}
-          />
-        );
+        return <Input {...props} />;
+      case "textarea":
+        return <Textarea {...props} />;
       case "select":
-        return (
-          <Select
-            key={field.key}
-            word={word}
-            field={field}
-            updateWord={updateWord}
-          />
-        );
-      case "multiselector":
-        return (
-          <Multiselector
-            key={field.key}
-            word={word}
-            field={field}
-            updateWord={updateWord}
-          />
-        );
+        return <Select {...props} />;
+      case "multiInput":
+        return <MultiInput {...props} />;
+      case "multiSelect":
+        return <MultiSelect {...props} options={field.options!} />;
       default:
         return null;
     }
   };
 
-  const renderWordType = () => (
-    <React.Fragment>
-      <label>{"Word type"}</label>
-      <select
-        value={word.type || ""}
-        onChange={(e) => updateWord("type", e.target.value)}
-      >
-        <option value="" disabled></option>
-        {Object.keys(typeFields).map((key) => (
-          <option key={key}>{key}</option>
-        ))}
-      </select>
-    </React.Fragment>
-  );
-
   return (
-    <div sx={{ mb: 10, borderTop: "1px solid #ccc", pt: "20px" }}>
+    <div sx={{ mb: 10, pt: "20px" }}>
       <div
         sx={{
           display: "grid",
@@ -90,16 +90,7 @@ const Form = ({
           alignItems: "center",
         }}
       >
-        {commonFields
-          .filter((field) => !field.showLast)
-          .map((field) => renderField(field.type, field))}
-        {renderWordType()}
-        {word.type &&
-          typeFields[word.type] &&
-          typeFields[word.type].map((field) => renderField(field.type, field))}
-        {commonFields
-          .filter((field) => field.showLast)
-          .map((field) => renderField(field.type, field))}
+        {commonFields.map((field) => renderField(field.type, field))}
       </div>
       <div
         sx={{
