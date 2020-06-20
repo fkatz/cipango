@@ -26,17 +26,23 @@ const TogglePanel = ({
     <React.Fragment>
       <div
         sx={{
-          height: show ? height : 0,
-          transition: "0.5s",
+          position: "relative",
+          zIndex: -1,
+          width: "100%",
         }}
       >
         <div
-          ref={panelRef}
           sx={{
-            position: "relative",
-            top: show ? 0 : -height,
+            position: "absolute",
+            width: "100%",
+            zIndex: -2,
+            top: show ? 0 : "-100px",
+            opacity: show ? 1 : 0,
             transition: "0.5s",
+            borderBottom: "1px solid #ccc",
+            background: "white",
           }}
+          ref={panelRef}
         >
           {children}
         </div>

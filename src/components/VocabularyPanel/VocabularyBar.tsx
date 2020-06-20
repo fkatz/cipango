@@ -18,7 +18,22 @@ const VocabularyBar = () => {
   const { filters, setFilters } = React.useContext(VocabularyContext);
   return (
     <React.Fragment>
-      <Toolbar>
+      <Toolbar
+        panels={
+          <React.Fragment>
+            <TogglePanel show={showFilters} dependencies={[words, filters]}>
+              <Filters
+                filters={filters}
+                setFilters={setFilters}
+                sx={{
+                  px: ["10px", "10px", "30px"],
+                  py: ["20px", "20px", "30px"],
+                }}
+              />
+            </TogglePanel>
+          </React.Fragment>
+        }
+      >
         <div sx={{ display: "flex" }}>
           <Icon
             onClick={() => setShowFilters((showFilters) => !showFilters)}
@@ -29,17 +44,6 @@ const VocabularyBar = () => {
           <UploadButton words={words} />
         </div>
       </Toolbar>
-      <TogglePanel show={showFilters} dependencies={[words, filters]}>
-        <Filters
-          filters={filters}
-          setFilters={setFilters}
-          sx={{
-            borderBottom: "1px solid #ccc",
-            px: ["10px", "10px", "30px"],
-            py: ["20px", "20px", "30px"],
-          }}
-        />
-      </TogglePanel>
     </React.Fragment>
   );
 };

@@ -1,5 +1,6 @@
+import Word from "./word";
+
 export default interface Question {
-  question: string;
-  answers?: string[];
-  correctAnswer: string;
+  question: Word;
+  answers?: Word[];
 }

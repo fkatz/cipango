@@ -3,14 +3,19 @@ import { jsx } from "theme-ui";
 import React from "react";
 import { ReactComponent as Logo } from "../images/logo.svg";
 
-const Toolbar = ({ children }: { children?: React.ReactNode }) => {
+const Toolbar = ({
+  children,
+  panels,
+}: {
+  children?: React.ReactNode;
+  panels?: React.ReactNode;
+}) => {
   return (
-    <React.Fragment>
+    <div sx={{ position: "sticky", top: 0, zIndex: 1 }}>
       <div
         sx={{
-          position: "sticky",
-          zIndex: 1,
-          top: 0,
+          position: "relative",
+          zIndex: 2,
           borderBottom: "1px solid #ccc",
           px: "10px",
           py: "20px",
@@ -46,7 +51,8 @@ const Toolbar = ({ children }: { children?: React.ReactNode }) => {
           {children}
         </div>
       </div>
-    </React.Fragment>
+      <div>{panels}</div>
+    </div>
   );
 };
 export default Toolbar;

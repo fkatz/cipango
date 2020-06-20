@@ -5,9 +5,7 @@ import { GamesContext } from "../../contexts/GamesContext";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/actions";
 import { getFilteredWords } from "../../helpers";
-import Word from "../../models/word";
 import Question from "./Question";
-import QuestionModel from "../../models/question";
 import EndGameScreen from "./EndGameScreen";
 import LastQuestionAnswer from "./LastQuestionAnswer";
 import ProgressBar from "../ProgressBar";
@@ -26,90 +24,19 @@ const Game = () => {
     words,
     filters,
   ]);
-
-  const getNextQuestion = (lastQuestion?: QuestionModel): QuestionModel => {
-    const getRandomAnswers = (answers: Word[]): Word[] => {
-      const restWords = filteredWords.filter(
-        (word) => !answers.some((answer) => answer.word === word.word)
-      );
-      const randomIndex = Math.floor(Math.random() * restWords.length);
-      const newAnswers = [...answers, restWords[randomIndex]];
-      if (answers.length < 3) {
-        return getRandomAnswers(newAnswers);
-      } else
-        return newAnswers
-          .map((a) => ({ sort: Math.random(), value: a }))
-          .sort((a, b) => a.sort - b.sort)
-          .map((a) => a.value);
-    };
-    const turnWords = lastQuestion
-      ? filteredWords.filter((word) => word.word !== lastQuestion.question)
-      : filteredWords;
-    const randomIndex = Math.floor(Math.random() * turnWords.length);
-    const word = turnWords[randomIndex];
-    const key: keyof Word =
-      gameMode.questionType === "meaning"
-        ? "meaning"
-        : gameMode.romajiAnswers
-        ? "romaji"
-        : "hiragana";
-    let answers: string[] = [];
-    if (gameMode.multipleChoice) {
-      let answerMap: { [key: string]: true } = {};
-      getRandomAnswers([word])
-        .map((answer) => answer[key]!)
-        .forEach(
-          (answer) =>
-            (answerMap[
-              typeof answer === "string" ? answer : answer.join("; ")
-            ] = true)
-        );
-      answers = Object.keys(answerMap);
-    }
-    const correctAnswer = word[key];
-    return {
-      question: word.word,
-      correctAnswer:
-        typeof correctAnswer === "string"
-          ? correctAnswer
-          : correctAnswer.join("; ")!,
-      ...(gameMode.multipleChoice && { answers }),
-    };
-  };
-
-  const [question, setQuestion] = React.useState(getNextQuestion());
-  const [lastQuestion, setLastQuestion] = React.useState(
-    null as null | { question: QuestionModel; wasCorrect: boolean }
-  );
-
-  const nextTurn = (answer: string) => {
-    const getIsCorrect = () => {
-      if (!gameMode.multipleChoice && question.correctAnswer.includes(";")) {
-        const correctAnswers = question.correctAnswer.split(/[ ]*;[ ]*/);
-        const answers = answer.split(/[ ]*;[ ]*/);
-        return correctAnswers.some((correctAnswer) =>
-          answers.includes(correctAnswer)
-        );
-      }
-      return answer === question.correctAnswer;
-    };
-    const isCorrect = getIsCorrect();
-    const nextTurn = gameState.turn + 1;
-    setLastQuestion({ question, wasCorrect: isCorrect });
-    if (nextTurn < gameMode.turns) {
-      setQuestion(getNextQuestion(question));
-    }
-    setGameState((gameState) => ({
-      ...gameState,
-      turn: nextTurn,
-      correctAnswers: gameState.correctAnswers + (isCorrect ? 1 : 0),
-    }));
-  };
   return (
     <React.Fragment>
-      <LastQuestionAnswer lastQuestion={lastQuestion} />
+      <LastQuestionAnswer
+        lastQuestion={gameState.lastQuestion}
+        gameMode={gameMode}
+      />
       {gameState.turn < gameMode.turns ? (
-        <Question gameMode={gameMode} question={question} nextTurn={nextTurn} />
+        <Question
+          words={filteredWords}
+          gameMode={gameMode}
+          gameState={gameState}
+          setGameState={setGameState}
+        />
       ) : (
         <EndGameScreen
           gameState={gameState}

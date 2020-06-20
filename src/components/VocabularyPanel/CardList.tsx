@@ -58,7 +58,7 @@ const CardList = () => {
         </div>
       }
       {filteredWords.map((word) => (
-        <div sx={{ ...defaultSize }}>
+        <div key={word.word + ";" + word.hiragana} sx={{ ...defaultSize }}>
           <Card
             key={word.word}
             word={word}

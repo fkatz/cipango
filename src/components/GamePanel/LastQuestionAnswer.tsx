@@ -1,11 +1,14 @@
 /** @jsx jsx */
 import { jsx } from "theme-ui";
 import Question from "../../models/question";
+import GameMode from "../../models/game-mode";
 
 const LastQuestionAnswer = ({
   lastQuestion,
+  gameMode,
 }: {
-  lastQuestion: { question: Question; wasCorrect: boolean } | null;
+  lastQuestion?: { question: Question; wasCorrect: boolean };
+  gameMode: GameMode;
 }) => {
   return (
     <div
@@ -21,8 +24,14 @@ const LastQuestionAnswer = ({
     >
       {lastQuestion
         ? `${lastQuestion.wasCorrect ? "Correct!" : "Wrong!"} ${
-            lastQuestion.question.question
-          } = ${lastQuestion.question.correctAnswer}`
+            lastQuestion.question.question.word
+          } = ${
+            gameMode.questionType === "meaning"
+              ? lastQuestion.question.question.meaning.join("; ")
+              : gameMode.romajiAnswers
+              ? lastQuestion.question.question.romaji
+              : lastQuestion.question.question.hiragana
+          }`
         : " "}
     </div>
   );
