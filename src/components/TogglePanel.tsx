@@ -36,6 +36,7 @@ const TogglePanel = ({
             position: "absolute",
             width: "100%",
             zIndex: -2,
+            pointerEvents: show ? "all" : "none",
             top: show ? 0 : "-100px",
             opacity: show ? 1 : 0,
             transition: "0.5s",
